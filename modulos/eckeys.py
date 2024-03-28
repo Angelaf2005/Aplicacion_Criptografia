@@ -10,11 +10,14 @@ private_key = ec.generate_private_key(ec.SECP256R1())
 # Obtener la clave pública correspondiente
 public_key = private_key.public_key()
 
-# Serializar las claves en formato PEM
+# Especificar la contraseña para encriptar la clave privada
+password = b'contrasena'  # Reemplaza con tu propia contraseña
+
+# Serializar la clave privada en formato PEM con encriptación
 private_key_pem = private_key.private_bytes(
     encoding=serialization.Encoding.PEM,
-    format=serialization.PrivateFormat.TraditionalOpenSSL,
-    encryption_algorithm=serialization.NoEncryption()
+    format=serialization.PrivateFormat.PKCS8,
+    encryption_algorithm=serialization.BestAvailableEncryption(password)
 )
 
 public_key_pem = public_key.public_bytes(
