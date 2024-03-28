@@ -2,6 +2,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio De Sesión</title>
+    <title>Pagina Principal</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/Pprincipal.css') }}">
 </head>
+<body>
+    <header class="header">
+        <a href="/static/css/Pprincipal.css" class="logo">PIA - Criptografia</a>
+        <nav class="navbar">
+
+            <ul>
+                <a href="index.html">Inicio</a>
+                <a href="integrantes.html">Integrantes</a>
+                <a href="registro.html">Registro</a>
+                <a href="Form.html">Inicio de sesión</a>
+            </ul>
+        </nav>
+
+        <div class="wraper-icons">
+            <i class="bx bx-user hover-icons" id="user-icon"></i>
+            <span class="vertical-line"></span>
+            <i class="bx bx-cart hover icons" id="cart-icon"></i>
+        </div>
+
+    </header>
+
+    <script scr="script.js"></script>
+</body>
+</html>
