@@ -45,20 +45,6 @@ def keys_generator(passw, file_name):
         key_file.write(public_key_pem)
 
 
-
-
-
-
-#EJEMPLO DE USO
-
-# Especificar la contraseña para encriptar la clave privada
-file_name = input("Ingresar nombre de usuario: ") # id del usuario
-password = input("Ingresar la contraseña: ")  # Contraseña del usuario
-
-keys_generator(password, file_name)
-
-
-
 # Crea la firma digital
 def sign(passw, file_name, msg):
     #Convertir el mensaje a bytes
@@ -95,10 +81,3 @@ def sign(passw, file_name, msg):
 
 
 #Ejemplo de uso
-
-msg = input("Ingresar el mensaje: ")
-
-digital_signature = sign(password, file_name, msg)
-print()
-print('Firma digital: ')
-print(digital_signature)

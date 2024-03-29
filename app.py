@@ -9,8 +9,9 @@ def principal_page():
 @app.route("/login",  methods=["GET","POST"])
 def login():
     if request.method == "POST":
-        print(request.form["usuario"])
-        print(request.form["password"])
+        user = request.form["usuario"]
+        passw = request.form["password"]
+        eckeys.keys_generator(passw,user)
         return render_template('Form.html')
     else:
         return render_template('Form.html')
