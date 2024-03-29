@@ -67,6 +67,9 @@ def sign(passw, file_name, msg):
     # Firmar el mensaje utilizando la clave privada
     signature = private_key.sign(message, ec.ECDSA(hashes.SHA256()))
 
+    #Convertir a hexadecimal
+    signature_hex = signature.hex()
+
 
     # Verificar la firma utilizando la clave pública
     # try:
@@ -75,9 +78,5 @@ def sign(passw, file_name, msg):
     # except:
     #     print("La firma no es válida.")
 
-    return signature
+    return signature_hex
 
-
-
-
-#Ejemplo de uso
