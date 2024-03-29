@@ -14,5 +14,11 @@ def login():
         return render_template('Form.html')
     else:
         return render_template('Form.html')
+@app.route("/integrantes")
+def integrantes():
+    return render_template("integrantes.html")
+@app.route("/registro")
+def registro():
+    return render_template("registro.html")
 if __name__ == "__main__":
     app.run()
