@@ -44,7 +44,7 @@ def keys_generator(passw, file_name):
 
 
 # Crea la firma digital
-def sign(passw, file_name, msg):
+def sign(file_name, passw, msg):
     #Convertir el mensaje a bytes
     message = msg.encode('utf-8')
 

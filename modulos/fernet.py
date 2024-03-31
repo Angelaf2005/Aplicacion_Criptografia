@@ -2,7 +2,7 @@ from cryptography.fernet import Fernet
 import os
 
 
-def fernet_encrypt_process(message, file_name):
+def fernet_encrypt(message, file_name):
 
     # Verificar existencia de carpetas
     path = 'Data/Fernet/Keys'
