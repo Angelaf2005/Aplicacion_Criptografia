@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from modulos import eckeys
+from modulos import users
 
 app = Flask(__name__)
 
@@ -12,6 +13,8 @@ def login():
         user = request.form["usuario"]
         passw = request.form["password"]
         eckeys.keys_generator(passw,user)
+        users.create_db()
+        users.login(user, passw)
         return render_template('Form.html')
     else:
         return render_template('Form.html')
