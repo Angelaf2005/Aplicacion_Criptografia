@@ -12,7 +12,6 @@ def login():
     if request.method == "POST":
         user = request.form["usuario"]
         passw = request.form["password"]
-        eckeys.keys_generator(passw,user)
         users.create_db()
         users.login(user, passw)
         return render_template('Form.html')
@@ -23,6 +22,7 @@ def integrantes():
     return render_template("integrantes.html")
 @app.route("/registro")
 def registro():
+    #eckeys.keys_generator(passw,user)
     return render_template("registro.html")
 if __name__ == "__main__":
     app.run()

@@ -29,19 +29,17 @@ def keys_generator(passw, file_name):
     )
 
     # Verificar existencia de carpetas
-    if not os.path.exists('Private-Keys'):
-        os.mkdir('Private-Keys')
-
-    if not os.path.exists('Public-Keys'):
-        os.mkdir('Public-Keys')
-
-
+    os.makedirs('Data/ECDSA/Private-Keys', exist_ok=True)
+    os.makedirs('Data/ECDSA/Public-Keys', exist_ok=True)
 
     # Guardar las claves en archivos .PEM
-    with open(f"Private-Keys/{file_name}_private_key.pem",'wb') as key_file:
+    private_path = 'Data/ECDSA/Private-Keys'
+    public_path = 'Data/ECDSA/Public-Keys'
+
+    with open(f"{private_path}/{file_name}_private_key.pem",'wb') as key_file:
         key_file.write(encrypted_private_key_pem)
 
-    with open(f"Public-Keys/{file_name}_public_key.pem", 'wb') as key_file:
+    with open(f"{public_path}/{file_name}_public_key.pem", 'wb') as key_file:
         key_file.write(public_key_pem)
 
 
