@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from modulos import eckeys
 from modulos import users
+from modulos import fernet
 
 app = Flask(__name__)
 
@@ -22,6 +23,7 @@ def integrantes():
     return render_template("integrantes.html")
 @app.route("/registro")
 def registro():
+    #fernet.fernet_key_generator(user)
     #eckeys.keys_generator(passw,user)
     return render_template("registro.html")
 if __name__ == "__main__":
