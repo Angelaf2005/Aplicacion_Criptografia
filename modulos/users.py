@@ -20,7 +20,9 @@ def create_db():
         #Crear una tabla si no existe
         cursor.execute('''CREATE TABLE IF NOT EXISTS usuarios (
                             id INTEGER PRIMARY KEY,
+                            name TEXT NOT NULL,
                             user TEXT NOT NULL,
+                            email TEXT NOT NULL,
                             pass_hash TEXT NOT NULL
                         )''')
     
@@ -62,33 +64,41 @@ def login(user, password):
 
 
 # Registro de un usuario en la base de datos
-def register(user, password):
+def register(name, user, email, password):
 
-    #Verificar que el usuario no exista.
-    #Conectarse a la base de datos+
+    #Conectarse a la base de datos
     conexion = sqlite3.connect('DataBase/DataBase.db')
     cursor = conexion.cursor()
     
-    # Ejecutar una consulta SQL para seleccionar el usuario con el nombre dado
+    # Ejecutar una consulta SQL para verificar si el usuario ya existe
     cursor.execute("SELECT * FROM usuarios WHERE user = ?", (user,))
-    usuario = cursor.fetchone()
+    usuario_x_usuario = cursor.fetchone()
 
-    if usuario:
+    # Ejecutar una consulta SQL para verificar si el email ya existe
+    cursor.execute("SELECT * FROM usuarios WHERE email = ?", (email,))
+    usuario_x_email = cursor.fetchone()
+
+    # Verificar si el usuario ya existe por el nombre de usuario
+    if usuario_x_usuario:
         print('Este nombre de usuario ya existe.')
+
+    # Verificar si el usuario ya existe por el email
+    elif usuario_x_email:
+        print("Este email ya esta registrado.")
+    # Si pasa las verificaciones, regitrar el nuevo usuario
     else:
 
         #Calcular el hash de la contraseña proporcionada
         password_hash = hashlib.sha256(password.encode()).hexdigest()
 
         # Datos del nuevo usuario
-        new_user = (user, password_hash)
+        new_user = (name, user, email, password_hash)
 
         # Insertar el nuevo usuario en la tabla
-        cursor.execute("INSERT INTO usuarios (user, pass_hash) VALUES (?, ?)", new_user)
+        cursor.execute("INSERT INTO usuarios (name, user, email, pass_hash) VALUES (?, ?, ?, ?)", new_user)
 
         # Guardar los cambios y cerrar la conexión
         conexion.commit()
         conexion.close()
         
         print('Registrado')
-

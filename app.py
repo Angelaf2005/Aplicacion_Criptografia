@@ -6,6 +6,7 @@ app = Flask(__name__)
 @app.route("/")
 def principal_page():
     return render_template("index.html")
+
 @app.route("/login",  methods=["GET","POST"])
 def login():
     if request.method == "POST":
@@ -16,9 +17,11 @@ def login():
         return render_template('Form.html')
     else:
         return render_template('Form.html')
+    
 @app.route("/integrantes")
 def integrantes():
     return render_template("integrantes.html")
+
 @app.route("/registro")
 def registro():
     #fernet.fernet_key_generator(user)
@@ -26,4 +29,4 @@ def registro():
     #rsa.rsa_key_generator(user, passw)
     return render_template("registro.html")
 if __name__ == "__main__":
-    app.run()
+    app.run() # host='0.0.0.0'
