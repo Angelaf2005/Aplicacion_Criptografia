@@ -50,7 +50,7 @@ def login(user, password):
         password_hash = hashlib.sha256(password.encode()).hexdigest()
 
         # Verificar si la contraseña coincide
-        if usuario[2] == password_hash:
+        if usuario[4] == password_hash:
             print('Inicio de sesión exitoso')
             return True
         else:
@@ -102,3 +102,46 @@ def register(name, user, email, password):
         conexion.close()
         
         print('Registrado')
+
+
+
+
+# Verificar si el correo existe para envio de codigo
+def email_exist(email):
+    # Conectarse a la base de datos
+    conexion = sqlite3.connect('DataBase/DataBase.db')
+    cursor = conexion.cursor()
+
+    # Ejecutar una consulta SQL para verificar si el email existe
+    cursor.execute("SELECT * FROM usuarios WHERE email = ?", (email,))
+    user = cursor.fetchone
+
+    # Cerrar la conexion
+    conexion.close()
+
+    #Verificar si se encontro algun usuario con el email dado.
+    if user:
+        return True
+    else:
+        return False
+
+
+
+
+# Mosificar base de datos para cambio de contraseña
+def modify_db(email, password):
+
+    # Calcular el hash de la nueva contraseña proporcionada
+    password_hash = hashlib.sha256(password.encode()).hexdigest()
+    print(password_hash)
+
+    # Conectarse con la base de datos
+    conexion = sqlite3.connect('DataBase/DataBase.db')
+    cursor = conexion.cursor()
+
+    # Ejecutar consulta SQL para actualizar el hash de la contraseña
+    cursor.execute("UPDATE usuarios SET pass_hash = ? WHERE email = ?", (password_hash, email))
+
+    # Guardar los cambios y Cerrar la conexión
+    conexion.commit()
+    conexion.close()
