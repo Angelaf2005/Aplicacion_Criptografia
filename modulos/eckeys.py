@@ -2,6 +2,7 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import hashes
+from cryptography.exceptions import InvalidSignature
 import os
 
 
@@ -68,13 +69,24 @@ def sign(file_name, passw, msg):
     #Convertir a hexadecimal
     signature_hex = signature.hex()
 
-
-    # Verificar la firma utilizando la clave pública
-    # try:
-    #     public_key.verify(signature, mensaje, ec.ECDSA(hashes.SHA256()))
-    #     print("La firma es válida.")
-    # except:
-    #     print("La firma no es válida.")
-
     return signature_hex
 
+
+# Verificar la firma de un mensaje
+def sign_verify(message, sign, public_key_pem):
+    # Convertir el mensaje a bytes
+    message = message.encode('utf-8')
+
+    # Cragar la clave publica del remitente
+    public_key = serialization.load_pem_public_key(public_key_pem, backend=default_backend)
+
+    # Verificar la firma
+    try:
+        public_key.verify(
+            sign,
+            message,
+            ec.ECDSA(hashes.SHA256())
+        )
+        print("La firma es valida. El firmante es quien dice ser.")
+    except InvalidSignature:
+        print("La firma no es valida. El firmante podría no ser quien dice ser.")
