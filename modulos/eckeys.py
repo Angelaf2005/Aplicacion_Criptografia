@@ -6,7 +6,7 @@ import os
 
 
 #Genera llave publica y privada utilizando la curva eliptica NIST P-256
-def keys_generator(passw, file_name):
+def keys_generator(file_name, passw):
     #Generar una clave privada
     private_key = ec.generate_private_key(ec.SECP256R1())
 
