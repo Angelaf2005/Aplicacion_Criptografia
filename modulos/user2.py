@@ -57,16 +57,18 @@ class ModelUser():
             cursor.execute("INSERT INTO usuarios (name, user, email, pass_hash) VALUES (?, ?, ?, ?)", new_user)
             # Guardar los cambios y cerrar la conexión
             conexion.commit()
-            conexion.close()
-            userconection = User(id,name,user,email,password_hash)
+            cursor.execute("SELECT * FROM usuarios WHERE user = ?", (user,))
+            a = cursor.fetchone()
+            userconection = User(a[0],name,user,email,password_hash)
             print('Registrado')
             return userconection
+    @classmethod
     def get_by_id(self,id):
         # Conectarse a la base de datos
         conexion = sqlite3.connect('DataBase/DataBase.db')
         cursor = conexion.cursor()
         # Ejecutar una consulta SQL para seleccionar el usuario con el nombre dado
-        cursor.execute(("SELECT id, name, user, email FROM usuarios WHERE id = {}").format(id))
+        cursor.execute("SELECT id, name, user, email FROM usuarios WHERE id = {}".format(id))
         usuario = cursor.fetchone()
         # Verificar si el usuario existe
         if usuario:

@@ -1,18 +1,18 @@
 from flask import Flask, render_template, request, session, redirect, url_for, send_from_directory, send_file
 from modulos import eckeys, users, fernet, rsa, restore, user2
-from flask_login import login_user,login_required,UserMixin,LoginManager
+from flask_login import login_user,login_required,UserMixin,LoginManager,current_user
 from os import urandom, path
 
 #app
 app = Flask(__name__)
 UPLOAD_FOLDER = "/Uploads"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-login_manager_app = LoginManager(app)
+login_manager = LoginManager(app)
 # Generar clave de sesion
 app.secret_key = urandom(32)
-@login_manager_app.user_loader
-def load_user(id):
-    return user2.ModelUser.get_by_id(id)
+@login_manager.user_loader
+def load_user(user_id):
+    return user2.ModelUser.get_by_id(int(user_id))
 @app.route("/")
 def principal_page():
     return render_template("index.html")
