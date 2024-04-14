@@ -4,28 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio De Sesión</title>
-    <link rel="stylesheet" href="/static/css/olvide.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/registro.css')}}">
 </head>
 <body>
     <a href="/" class="Pprincipal">
         <button>Volver a la Página Principal</button>
     </a>
     <section>
-        <form>
+        <form method="post" action="/register">
             <h1>Inicio</h1>
             <div class="input">
                 <ion-icon name="usuario"></ion-icon>
-                <input type="usuario" required>
+                <input type="usuario" required id="name" name="name">
                 <label for="">Nombre Completo</label>
             </div>
             <div class="input">
                 <ion-icon name="usuario"></ion-icon>
-                <input type="usuario" required>
+                <input type="usuario" required id="usuario" name="usuario">
                 <label for="">Crea tu nombre de usuario</label>
             </div>
             <div class="input">
                 <ion-icon name="lock-closed-outline"></ion-icon>
-                <input type="email" required>
+                <input type="email" required id="email" name="email">
                 <label for="">Email</label>
             </div>
             <div class="input">
@@ -35,7 +35,7 @@
             </div>
             <div class="input">
                 <ion-icon name="lock-closed-outline"></ion-icon>
-                <input type="password" required>
+                <input type="password" required id="passwd" name="passwd">
                 <label for="">Contraseña</label>
             </div>
             <div class="input">

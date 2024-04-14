@@ -29,8 +29,14 @@ def login():
 def integrantes():
     return render_template("integrantes.html")
 
-@app.route("/register")
-def registro():
+@app.route("/register", methods=["GET","POST"])
+def register():
+    if request.method == "POST":
+        user = request.form["usuario"]
+        passwd = request.form["passwd"]
+        email = request.form["email"]
+        name = request.form["name"]
+        users.register(name,user,email,passwd)
     #fernet.fernet_key_generator(user)
     #eckeys.keys_generator(user,passw)
     #rsa.rsa_key_generator(user, passw)

@@ -11,27 +11,26 @@
         <button>Volver a la Página Principal</button>
     </a>
     <section>
-        <form>
+        <form method="post" action="/login">
             <h1>Inicio</h1>
             <div class="input">
                 <ion-icon name="usuario"></ion-icon>
-                <input type="usuario" required>
-                <label for="">Usuario</label>
+                <input type="usuario" required id="usuario" name="usuario">
+                <label for="usuario">Usuario</label>
             </div>
             <div class="input">
                 <ion-icon name="lock-closed-outline"></ion-icon>
-                <input type="password" required>
-                <label for="">Contraseña</label>
+                <input type="password" required id="password" name="password" pattern="[A-Za-z0-9]{4,12}">
+                <label for="password">Contraseña</label>
             </div>
             <div class="recordar">
                 <label for=""><input type="checkbox">Recordar</label>
-                <a href="/olvide">Olvidé la contraseña</a>
+                <a href="#">Olvidé la contraseña</a>
             </div>
-            <button>Iniciar</button>
+            <button type="submit">Iniciar</button>
             <div class="registro">
                 <p>No tengo una cuenta <a href="/register">Regístrate</a></p>
             </div>
-        </form>
     </section>
 </body>
 </html>
