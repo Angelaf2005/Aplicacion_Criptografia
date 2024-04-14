@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio De Sesión</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/registro.css')}}">
+
     <script>
         function validarFormulario() {
             var email = document.getElementById('email').value;
@@ -13,18 +14,26 @@
             var confirmarPassword = document.getElementById('confirmarPassword').value;
 
             if (email !== confirmarEmail) {
-                alert('Los correos electrónicos no coinciden');
+                document.getElementById('emailError').innerText = 'Emails no coinciden';
+                //alert('Los correos electrónicos no coinciden');
                 return false;
+            } else {
+                document.getElementById('emailError').innerText = '';
             }
 
             if (password !== confirmarPassword) {
-                alert('Las contraseñas no coinciden');
+                document.getElementById('passwordError').innerText = 'Contraseñas no coinciden';
+                
+                //alert('Las contraseñas no coinciden');
                 return false;
+            } else {
+                document.getElementById('passwordError').innerText = '';
             }
 
             return true;
         }
     </script>
+
 </head>
 <body>
     <a href="/" class="Pprincipal">
@@ -47,6 +56,7 @@
                 <ion-icon name="lock-closed-outline"></ion-icon>
                 <input type="email" required id="email" name="email">
                 <label for="">Email</label>
+                <span id="emailError" style="color: red;"></span>
             </div>
             <div class="input">
                 <ion-icon name="lock-closed-outline"></ion-icon>
@@ -57,6 +67,7 @@
                 <ion-icon name="lock-closed-outline"></ion-icon>
                 <input type="password" required id="passwd" name="passwd">
                 <label for="">Contraseña</label>
+                <span id="passwordError" style="color: red;"></span>
             </div>
             <div class="input">
                 <ion-icon name="lock-closed-outline"></ion-icon>
