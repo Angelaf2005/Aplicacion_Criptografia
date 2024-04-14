@@ -1,9 +1,6 @@
 import sqlite3
 import hashlib
 import os
-
-
-
 # Crear la base de datos
 def create_db():
 
@@ -102,6 +99,7 @@ def register(name, user, email, password):
         conexion.close()
         
         print('Registrado')
+        return True
 
 
 
