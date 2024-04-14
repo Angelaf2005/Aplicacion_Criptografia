@@ -5,13 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio De Sesión</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/registro.css')}}">
+    <script>
+        function validarFormulario() {
+            var email = document.getElementById('email').value;
+            var confirmarEmail = document.getElementById('confirmarEmail').value;
+            var password = document.getElementById('passwd').value;
+            var confirmarPassword = document.getElementById('confirmarPassword').value;
+
+            if (email !== confirmarEmail) {
+                alert('Los correos electrónicos no coinciden');
+                return false;
+            }
+
+            if (password !== confirmarPassword) {
+                alert('Las contraseñas no coinciden');
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </head>
 <body>
     <a href="/" class="Pprincipal">
         <button>Volver a la Página Principal</button>
     </a>
     <section>
-        <form method="post" action="/register">
+        <form method="post" action="/register" onsubmit="return validarFormulario()">
             <h1>Inicio</h1>
             <div class="input">
                 <ion-icon name="usuario"></ion-icon>
@@ -30,7 +50,7 @@
             </div>
             <div class="input">
                 <ion-icon name="lock-closed-outline"></ion-icon>
-                <input type="email" required>
+                <input type="email" required id="confirmarEmail">
                 <label for="">Confirma el email</label>
             </div>
             <div class="input">
@@ -40,7 +60,7 @@
             </div>
             <div class="input">
                 <ion-icon name="lock-closed-outline"></ion-icon>
-                <input type="password" required>
+                <input type="password" required id="confirmarPassword">
                 <label for="">Confirma tu contraseña</label>
             </div>
             <button>Iniciar</button>
