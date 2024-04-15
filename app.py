@@ -45,6 +45,7 @@ def register():
         users.create_db()
         userconection = user2.ModelUser.register(name,user,email,passwd)
         login_user(userconection)
+        return redirect(url_for("uploads",nombre=user))
     #fernet.fernet_key_generator(user)
     #eckeys.keys_generator(user,passw)
     #rsa.rsa_key_generator(user, passw)
@@ -55,14 +56,13 @@ def logout():
         session.pop('usuario')
     
     return redirect(url_for('principal_page'))
-@app.route('/uploads/<name>')
+@app.route('/uploads/<string:nombre>')
 @login_required
-def download_file(name=""):
-    basepath = path.dirname(__file__)
-    url_file1 = path.join(basepath,"Private-Keys","foto.txt")
-    respuesta = send_file(url_file1,as_attachment=True)
-    print("hola")
-    return respuesta
+def uploads(nombre=""):
+    if nombre == "":
+        return redirect("/")
+    else:
+        return render_template("archivos.html")
 
 
 if __name__ == "__main__":
