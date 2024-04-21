@@ -43,10 +43,12 @@ class ModelUser():
         # Verificar si el usuario ya existe por el nombre de usuario
         if usuario_x_usuario:
             print('Este nombre de usuario ya existe.')
+            return None
 
         # Verificar si el usuario ya existe por el email
         elif usuario_x_email:
             print("Este email ya esta registrado.")
+            return None
         # Si pasa las verificaciones, regitrar el nuevo usuario
         else:
             #Calcular el hash de la contraseña proporcionada

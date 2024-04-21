@@ -44,11 +44,14 @@ def register():
         name = request.form["name"]
         users.create_db()
         userconection = user2.ModelUser.register(name,user,email,passwd)
-        login_user(userconection)
-        return redirect(url_for("uploads",nombre=user))
-    #fernet.fernet_key_generator(user)
-    #eckeys.keys_generator(user,passw)
-    #rsa.rsa_key_generator(user, passw)
+        if userconection != None:
+            login_user(userconection)
+            fernet.fernet_key_generator(user)
+            eckeys.keys_generator(user,passwd)
+            rsa.rsa_key_generator(user, passwd)
+            print(current_user)
+            return redirect(url_for("uploads",nombre=user))
+        return render_template("registro.html")
     return render_template("registro.html")
 @app.route('/logout')
 def logout():
@@ -59,11 +62,25 @@ def logout():
 @app.route('/uploads/<string:nombre>')
 @login_required
 def uploads(nombre=""):
-    if nombre == "":
+    if nombre == "" or nombre != current_user.username:
         return redirect("/")
     else:
-        return render_template("archivos.html")
-
-
+        return render_template("archivos.html",archivo=nombre)
+@login_required
+@app.route("/PrivateKey/<string:archivo>")
+def PrivateKey(archivo=""):
+    if archivo == "" or archivo != current_user.username:
+        return (redirect("/"))
+    else:
+        var = archivo+"_private_key.pem"
+        return send_file("Data/ECDSA/Private-Keys/"+var)
+@login_required
+@app.route("/PublicKey/<string:archivo>")
+def PublicKey(archivo=""):
+    if archivo == "" or archivo != current_user.username:
+        return (redirect("/"))
+    else:
+        var = archivo+"_public_key.pem"
+        return send_file("Data/ECDSA/Public-Keys/"+var)
 if __name__ == "__main__":
     app.run() # host='0.0.0.0'

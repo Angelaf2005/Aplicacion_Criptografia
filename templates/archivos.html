@@ -10,13 +10,13 @@
     <div class="container">
         <h1>Descarga tus archivos de inicio de sesión</h1>
         <div class="file-container">
-            <a href="archivo.cer" download>
+            <a href="{{ url_for('PublicKey',archivo=archivo)}}">
                 <div class="file">
                     <span class="file-name">Archivo.cer</span>
                     <span class="file-download">Descargar</span>
                 </div>
             </a>
-            <a href="archivo.key" download>
+            <a href="{{ url_for('PrivateKey',archivo=archivo)}}" download>
                 <div class="file">
                     <span class="file-name">Archivo.key</span>
                     <span class="file-download">Descargar</span>
