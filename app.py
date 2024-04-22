@@ -44,6 +44,7 @@ def register():
         name = request.form["name"]
         users.create_db()
         userconection = user2.ModelUser.register(name,user,email,passwd)
+<<<<<<< Updated upstream
         if userconection != None:
             login_user(userconection)
             fernet.fernet_key_generator(user)
@@ -52,6 +53,11 @@ def register():
             print(current_user)
             return redirect(url_for("uploads",nombre=user))
         return render_template("registro.html")
+=======
+        login_user(userconection)
+        return redirect(url_for("uploads",nombre=user))
+
+>>>>>>> Stashed changes
     return render_template("registro.html")
 @app.route('/logout')
 def logout():

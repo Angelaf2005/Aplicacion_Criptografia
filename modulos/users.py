@@ -1,6 +1,8 @@
 import sqlite3
 import hashlib
 import os
+
+
 # Crear la base de datos
 def create_db():
 
