@@ -47,7 +47,7 @@ def register():
         if userconection != None:
             login_user(userconection)
             #fernet.fernet_key_generator(user)
-            certificate, encrypted_private_key_der = eckeys.keys_generator(name, user, passwd, email)
+            eckeys.keys_generator(name, user, passwd, email)
             #rsa.rsa_key_generator(user, passwd)
             print(current_user)
             return redirect(url_for("uploads",nombre=user))
@@ -76,11 +76,11 @@ def PrivateKey(archivo=""):
         return send_file("Data/ECDSA/Private-Keys/"+var)
 @login_required
 @app.route("/PublicKey/<string:archivo>")
-def PublicKey(archivo=""):
+def Certificate(archivo=""):
     if archivo == "" or archivo != current_user.username:
         return (redirect("/"))
     else:
-        var = archivo+"_public_key.pem"
-        return send_file("Data/ECDSA/Public-Keys/"+var)
+        var = archivo+"_Certificate.cer"
+        return send_file("Data/ECDSA/Certificates/"+var)
 if __name__ == "__main__":
     app.run() # host='0.0.0.0'

@@ -34,10 +34,12 @@ def keys_generator(name, username, password, email):
     # Verificar existencia de carpetas
     os.makedirs('Data/ECDSA/Private-Keys', exist_ok=True)
     os.makedirs('Data/ECDSA/Public-Keys', exist_ok=True)
+    os.makedirs('Data/ECDSA/Certificates', exist_ok=True)
 
     # Guardar las claves en archivos .key
     private_path = 'Data/ECDSA/Private-Keys'
     public_path = 'Data/ECDSA/Public-Keys'
+    certificate_path = 'Data/ECDSA/Certificates'
 
     # Guardar los archivos en el servidor
     with open(f"{private_path}/{username}_encrypted_private_key.key",'wb') as key_file:
@@ -48,8 +50,11 @@ def keys_generator(name, username, password, email):
 
 
     # Crear el certificado
+    issuer = x509.Name([
+        x509.NameAttribute(NameOID.COMMON_NAME, 'PIA-CRIPTOGRAFIA')
+    ])
     # Construir el sujeto del certificado
-    subject = issuer = x509.Name([
+    subject = x509.Name([
         x509.NameAttribute(NameOID.COMMON_NAME, name),
         x509.NameAttribute(NameOID.SURNAME, username),
         x509.NameAttribute(NameOID.EMAIL_ADDRESS, email)
@@ -75,11 +80,14 @@ def keys_generator(name, username, password, email):
 
     )
 
-    #Firmar el certificado con el algoritmo ECDSA y la clave privada
+    #Firmar los datos del usuario
     certificate = builder.sign(
         private_key,
         hashes.SHA256()
     )
 
-    return certificate, encrypted_private_key_der
+    certificate_bytes = certificate.public_bytes(encoding=serialization.Encoding.DER)
+
+    with open(f"{certificate_path}/{username}_Certificate.cer", 'wb') as cer_file:
+        cer_file.write(certificate_bytes)
 
