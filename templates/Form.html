@@ -13,10 +13,15 @@
     <section>
         <form method="post" action="/login">
             <h1>Inicio</h1>
-            <div class="input">
+            <div class="input2">
                 <ion-icon name="usuario"></ion-icon>
-                <input type="usuario" required id="usuario" name="usuario">
-                <label for="usuario">Usuario</label>
+                <input type="file" id="archivo_usuario" name="archivo_usuario" accept=".cer, .key" required>
+                <label for="archivo_usuario">I</label>
+            </div>
+            <div class="input3">
+                <ion-icon name="usuario"></ion-icon>
+                <input type="file" id="archivo_usuario" name="archivo_usuario" accept=".txt, .pdf, .doc, .docx" required>
+                <label for="archivo_usuario">I</label>
             </div>
             <div class="input">
                 <ion-icon name="lock-closed-outline"></ion-icon>
@@ -25,7 +30,7 @@
             </div>
             <div class="recordar">
                 <label for=""><input type="checkbox">Recordar</label>
-                <a href="#">Olvidé la contraseña</a>
+                <a href="/olvide">Olvidé la contraseña</a>
             </div>
             <button type="submit">Iniciar</button>
             <div class="registro">
