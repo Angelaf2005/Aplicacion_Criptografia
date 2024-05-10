@@ -110,3 +110,21 @@ def read_user_certificate(cert_path):
     
     #Retornar el nombre, el username y el email
     return common_name, surname, email
+
+
+
+# Desencripta el archivo .key ingresado por el usuario
+def decrypt_private_key(key_path, password):
+    # Leer el contenido del archivo .key
+    with open(key_path, 'rb') as key_file:
+        encrypted_private_key = key_file.read()
+
+    #Desencriptar el archivo .key
+    private_key = serialization.load_der_private_key(
+        encrypted_private_key,
+        password=password.encode(),
+        backend=default_backend()
+    )
+
+    # Regresar la clave desencriptada
+    return private_key
