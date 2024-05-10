@@ -1,4 +1,5 @@
 from cryptography.hazmat.primitives import serialization
+from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import ec
 from cryptography.hazmat.primitives import hashes
 from cryptography import x509
@@ -36,7 +37,7 @@ def keys_generator(name, username, password, email):
     os.makedirs('Data/ECDSA/Public-Keys', exist_ok=True)
     os.makedirs('Data/ECDSA/Certificates', exist_ok=True)
 
-    # Guardar las claves en archivos .key
+    # Definir las rutas
     private_path = 'Data/ECDSA/Private-Keys'
     public_path = 'Data/ECDSA/Public-Keys'
     certificate_path = 'Data/ECDSA/Certificates'
@@ -91,3 +92,21 @@ def keys_generator(name, username, password, email):
     with open(f"{certificate_path}/{username}_Certificate.cer", 'wb') as cer_file:
         cer_file.write(certificate_bytes)
 
+
+
+
+# Funcion para obtener los datos del certificado del usuario.
+def read_user_certificate(cert_path):
+    #Leer el archivo .cer que ingreso el usuario
+    with open(cert_path, 'rb') as cert_file:
+        cert_data = cert_file.read()
+
+    # Obtener los datos del certificado
+    cert = x509.load_der_x509_certificate(cert_data, default_backend())
+    subject = cert.subject
+    common_name = subject.get_attributes_for_oid(x509.NameOID.COMMON_NAME)[0].value
+    surname = subject.get_attributes_for_oid(x509.NameOID.SURNAME)[0].value
+    email = subject.get_attributes_for_oid(x509.NameOID.EMAIL_ADDRESS)[0].value
+    
+    #Retornar el nombre, el username y el email
+    return common_name, surname, email
