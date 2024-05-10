@@ -11,16 +11,16 @@
         <button>Volver a la Página Principal</button>
     </a>
     <section>
-        <form method="post" action="/login">
+        <form method="post" action="/login" enctype="multipart/form-data">
             <h1>Inicio</h1>
             <div class="input2">
                 <ion-icon name="usuario"></ion-icon>
-                <input type="file" id="archivo_usuario" name="archivo_usuario" accept=".cer, .key" required>
+                <input type="file" id="archivo_cer" name="archivo_cer" accept=".cer" required>
                 <label for="archivo_usuario">I</label>
             </div>
             <div class="input3">
                 <ion-icon name="usuario"></ion-icon>
-                <input type="file" id="archivo_usuario" name="archivo_usuario" accept=".txt, .pdf, .doc, .docx" required>
+                <input type="file" id="archivo_key" name="archivo_key" accept=".key" required>
                 <label for="archivo_usuario">I</label>
             </div>
             <div class="input">

@@ -2,7 +2,8 @@ from flask import Flask, render_template, request, session, redirect, url_for, s
 from modulos import eckeys, users, fernet, rsa, restore, user2
 from flask_login import login_user,login_required,UserMixin,LoginManager,current_user
 from os import urandom, path
-
+import os
+from werkzeug.utils import secure_filename
 #app
 app = Flask(__name__)
 UPLOAD_FOLDER = "/Uploads"
@@ -20,13 +21,13 @@ def principal_page():
 @app.route("/login",  methods=["GET","POST"])
 def login():
     if request.method == "POST":
-        user = request.form["usuario"]
+        cer = request.files["archivo_cer"]
+        key = request.files["archivo_key"]
         passw = request.form["password"]
-        users.create_db()
-
-        if users.login(user, passw):
-            session['usuario'] = user
-
+        filenamecer = secure_filename(cer.filename)
+        filenamekey = secure_filename(key.filename)
+        cer.save("Uploads/"+filenamecer)
+        key.save("Uploads/"+filenamekey)
         return render_template('Form.html')
     else:
         return render_template('Form.html')
@@ -55,8 +56,7 @@ def register():
     return render_template("registro.html")
 @app.route('/logout')
 def logout():
-    if 'usuario' in session:
-        session.pop('usuario')
+    print(5)
     
     return redirect(url_for('principal_page'))
 @app.route('/uploads/<string:nombre>')
