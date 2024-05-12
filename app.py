@@ -28,10 +28,23 @@ def login():
         filenamekey = secure_filename(key.filename)
         cer.save("Uploads/"+filenamecer)
         key.save("Uploads/"+filenamekey)
-        return render_template('Form.html')
+        try:
+            name,username,email = eckeys.read_user_certificate("Uploads/"+filenamecer)
+            if username != None:
+                userconection = user2.ModelUser.login(username,passw)
+                if userconection != None and userconection!=False:
+                    login_user(userconection)
+                    return redirect(url_for('nota'))
+                else:
+                    return render_template('Form.html')
+        except:
+            return redirect(url_for("principal_page"))
     else:
         return render_template('Form.html')
-    
+@app.route("/notas")
+@login_required
+def nota():
+    return render_template("notas.html")   
 @app.route("/integrantes")
 def integrantes():
     return render_template("integrantes.html")

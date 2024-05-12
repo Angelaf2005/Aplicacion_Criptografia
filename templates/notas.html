@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notas</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/notas.css') }}">
+</head>
+</head>
+<body>
+    <div class="container">
+        <h1>Mis Notas</h1>
+        <div class="opciones">
+            <button onclick="mostrarNotasGuardadas()">Ver Notas Guardadas</button>
+            <button onclick="crearNuevaNota()">Crear Nueva Nota</button>
+        </div>
+        <div id="crearNotaForm" style="display:none;">
+            <form action="/guardar_nota" method="POST">
+                <label for="criptografia">Tipo de Criptografía:</label>
+                <select id="criptografia" name="criptografia">
+                    <option value="rsa">RSA</option>
+                    <option value="fernet">Fernet</option>
+                    <!-- Agregamos las opciones -->
+                </select>
+                <textarea id="nota" name="nota" placeholder="Escribe tu nota aquí..."></textarea>
+                <button type="submit">Guardar Nota</button>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+    function mostrarNotasGuardadas() {
+        var codigo = prompt("Por favor, ingrese el código de la nota:");
+        if (codigo === "tu_codigo_secreto") { 
+            alert("mostrar las notas guardadas");
+        } else {
+            alert("Ninguna nota coincide con el código.");
+        }
+    }
+
+    function crearNuevaNota() {
+        var crearNotaForm = document.getElementById("crearNotaForm");
+        crearNotaForm.style.display = "block";
+    }
+</script>
+</body>
+</html>

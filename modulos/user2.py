@@ -24,8 +24,11 @@ class ModelUser():
         usuario = cursor.fetchone()
         # Verificar si el usuario existe
         if usuario:
-            userconection = User(usuario[0],usuario[1],usuario[2],usuario[3],User.check_pass(usuario[4],userconection.password))
-            return userconection
+            if User.check_pass(usuario[4],password):
+                userconection = User(usuario[0],usuario[1],usuario[2],usuario[3],User.check_pass(usuario[4],password))
+                return userconection
+            else:
+                return False
         else:
             print('El usuario no existe')
             return False
