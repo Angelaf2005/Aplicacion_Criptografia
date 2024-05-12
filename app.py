@@ -41,9 +41,13 @@ def login():
             return redirect(url_for("principal_page"))
     else:
         return render_template('Form.html')
-@app.route("/notas")
+@app.route("/notas", methods=["GET","POST"])
 @login_required
 def nota():
+    if request.method == "POST":
+        nota = request.form["nota"]
+        encript = request.form["criptografia"]
+        return render_template("notas.html")
     return render_template("notas.html")   
 @app.route("/integrantes")
 def integrantes():
@@ -60,7 +64,7 @@ def register():
         userconection = user2.ModelUser.register(name,user,email,passwd)
         if userconection != None:
             login_user(userconection)
-            #fernet.fernet_key_generator(user)
+            fernet.fernet_key_generator(user)
             eckeys.keys_generator(name, user, passwd, email)
             #rsa.rsa_key_generator(user, passwd)
             print(current_user)
