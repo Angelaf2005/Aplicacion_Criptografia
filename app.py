@@ -3,6 +3,7 @@ from modulos import eckeys, users, fernet, rsa, restore, user2
 from flask_login import login_user,login_required,UserMixin,LoginManager,current_user
 from os import urandom, path
 import os
+import time
 from werkzeug.utils import secure_filename
 #app
 app = Flask(__name__)
@@ -34,6 +35,7 @@ def login():
                 userconection = user2.ModelUser.login(username,passw)
                 if userconection != None and userconection!=False:
                     login_user(userconection)
+                    time.sleep(0.3)
                     return redirect(url_for('nota'))
                 else:
                     return render_template('Form.html')
@@ -43,12 +45,14 @@ def login():
         return render_template('Form.html')
 @app.route("/notas", methods=["GET","POST"])
 @login_required
-def nota():
+def nota(mensaje="No hay notas guardadas"):
     if request.method == "POST":
         nota = request.form["nota"]
         encript = request.form["criptografia"]
-        return render_template("notas.html")
-    return render_template("notas.html")   
+        if encript == "fernet":
+            fernet.save_note(nota,current_user.username)
+        return render_template("notas.html",mensaje=fernet.fernet_decrypt(current_user.username))
+    return render_template("notas.html",mensaje=fernet.fernet_decrypt(current_user.username))   
 @app.route("/integrantes")
 def integrantes():
     return render_template("integrantes.html")
@@ -73,7 +77,8 @@ def register():
     return render_template("registro.html")
 @app.route('/logout')
 def logout():
-    print(5)
+    logout(current_user)
+    return redirect(url_for("principal_page"))
     
     return redirect(url_for('principal_page'))
 @app.route('/uploads/<string:nombre>')
