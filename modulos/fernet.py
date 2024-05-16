@@ -43,7 +43,6 @@ def fernet_decrypt(file_name):
 
     cipher_suite = Fernet(key)                                          # Desencriptar el mensaje
     decrypted_message = cipher_suite.decrypt(encrypted_message)
-
     return decrypted_message.decode('utf-8')
 def decrypt(file_name, archivo):
 

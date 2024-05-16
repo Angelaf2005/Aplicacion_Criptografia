@@ -53,15 +53,14 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-  var miVariable = "{{ men }}";  // Aquí puedes asignar el valor a tu variable
-
-if (miVariable !== "") {
+var miValor = "{{ men }}";
+if (miValor !== "") {
     // Realiza una acción si miVariable no es igual a ""
-    swal("hola");
+    swal(miValor);
 } else {
     console.log("La variable está vacía, no se realiza ninguna acción");
 }
-  // Variable global para almacenar el valor del botón presionado
+// Variable global para almacenar el valor del botón presionado
   var valorBoton = "";
   console.log(valorBoton)
   function Boton(valor) {

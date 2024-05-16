@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, url_for, send_from_directory, send_file
+from flask import Flask, render_template, request, session, redirect, url_for, send_from_directory, send_file,jsonify
 from modulos import eckeys, users, fernet, rsa, restore, user2,Cesar
 from flask_login import login_user,login_required,UserMixin,LoginManager,current_user
 from os import urandom, path
@@ -61,13 +61,17 @@ def nota():
 def integrantes():
     return render_template("integrantes.html")
 @app.route("/verlasnotas",methods=['POST','GET'])
+@login_required
 def notasg(men=""):
+    print(men)
     if request.method == "POST":
         enc = request.form["enc"]
         if enc == "NF":
-            session['men']=fernet.fernet_decrypt(current_user.username)
-        return render_template('Nguardadas.html')
-    men = session.get('men',"")
+            si=fernet.fernet_decrypt(current_user.name)
+            print(si)
+        else:
+            si=''
+        return render_template('Nguardadas.html',men=si)
     return render_template('Nguardadas.html',men=men)
     
 @app.route("/register", methods=["GET","POST"])
