@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for, send_from_directory, send_file
-from modulos import eckeys, users, fernet, rsa, restore, user2
+from modulos import eckeys, users, fernet, rsa, restore, user2,Cesar
 from flask_login import login_user,login_required,UserMixin,LoginManager,current_user
 from os import urandom, path
 import os
@@ -45,18 +45,31 @@ def login():
         return render_template('Form.html')
 @app.route("/notas", methods=["GET","POST"])
 @login_required
-def nota(mensaje="No hay notas guardadas"):
+def nota():
     if request.method == "POST":
         nota = request.form["nota"]
         encript = request.form["criptografia"]
         if encript == "fernet":
             fernet.save_note(nota,current_user.username)
-        return render_template("notas.html",mensaje=fernet.fernet_decrypt(current_user.username))
-    return render_template("notas.html",mensaje=fernet.fernet_decrypt(current_user.username))   
+        elif encript == "rsa":
+            print(5)
+        elif encript == "cesar":
+            Cesar.save_note(nota,current_user.username)
+        return render_template("notas.html")
+    return render_template("notas.html")   
 @app.route("/integrantes")
 def integrantes():
     return render_template("integrantes.html")
-
+@app.route("/verlasnotas",methods=['POST','GET'])
+def notasg(men=""):
+    if request.method == "POST":
+        enc = request.form["enc"]
+        if enc == "NF":
+            session['men']=fernet.fernet_decrypt(current_user.username)
+        return render_template('Nguardadas.html')
+    men = session.get('men',"")
+    return render_template('Nguardadas.html',men=men)
+    
 @app.route("/register", methods=["GET","POST"])
 def register():
     if request.method == "POST":

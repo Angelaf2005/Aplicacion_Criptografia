@@ -1,0 +1,74 @@
+ <!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notas Guardadas</title>
+  <link rel="stylesheet" href="{{url_for('static',filename='css/Guardada.css')}}">
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js">
+  </script>
+</head>
+<body>
+<div class="container">
+  <form>
+    <button class="btn" onclick="Boton('NF')" name="enc" id="NF">Notas Fernet</button>
+    <button class="btn" onclick="Boton('NR')" name="enc" id="NR">Notas RCA</button>
+    <button class="btn" onclick="Boton('NC')" name="enc" id="NC">Notas César</button>
+    <button class="btn" onclick="Boton('EF')" name="enc" id="MEF">Mensaje Encriptado Fernet</button>
+    <button class="btn" onclick="Boton('ER')" name="enc" id="MER">Mensaje Encriptado RCA</button>
+    <button class="btn" onclick="Boton('EC')" name="enc" id="MEC">Mensaje Encriptado César</button>
+  </form>
+</div>
+<div id="NF" class="popup">
+  <span class="close" onclick="Cerrar('NF')">&times;</span>
+    NOTAS FERNET
+</div>
+
+<div id="EF" class="popup">
+  <span class="close" onclick="Cerrar('EF')">&times;</span>
+   ENCRIPTADO FERNET 
+</div>
+
+<div id="NR" class="popup">
+  <span class="close" onclick="Cerrar('NR')">&times;</span>
+   NOTAS RCA
+</div>
+
+<div id="ER" class="popup">
+  <span class="close" onclick="Cerrar('ER')">&times;</span>
+   ENCRIPTADO RCA
+</div>
+
+<div id="NC" class="popup">
+  <span class="close" onclick="Cerrar('NC')">&times;</span>
+   NOTAS CÉSAR
+</div>
+
+<div id="EC" class="popup">
+  <span class="close" onclick="mostrarNotasGuardadas()">&times;</span>
+   ENCRIPTADO CÉSAR 
+</div>
+
+<a href="notas.html" class="regresar">Regresar</a>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  var miVariable = "{{ men }}";  // Aquí puedes asignar el valor a tu variable
+
+if (miVariable !== "") {
+    // Realiza una acción si miVariable no es igual a ""
+    swal("hola");
+} else {
+    console.log("La variable está vacía, no se realiza ninguna acción");
+}
+  // Variable global para almacenar el valor del botón presionado
+  var valorBoton = "";
+  console.log(valorBoton)
+  function Boton(valor) {
+      // Almacena el valor del botón presionado en la variable global
+      valorBoton = valor;
+      $.post('/verlasnotas',{enc: valorBoton});  // Imprime el valor en la consola para verificar
+  }
+  </script>
+</body>
+</html>
