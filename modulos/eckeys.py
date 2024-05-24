@@ -115,31 +115,32 @@ def read_user_certificate(cert_path):
 
 # Desencripta el archivo .key ingresado por el usuario
 # Verifica el certificado
-def verify_certificate(cert_file, key_path, password):
-    # Leer el contenido del archivo .key
-    with open(key_path, 'rb') as key_file:
-        encrypted_private_key = key_file.read()
-
-    #Desencriptar el archivo .key
-    private_key = serialization.load_der_private_key(
-        encrypted_private_key,
-        password=password.encode(),
-        backend=default_backend()
-    )
-
-    # Cargar el certificado 
-    with open(cert_file, 'rb') as cert_file:
-        cert_data = cert_file.read()
-        cert = x509.load_pem_x509_certificate(cert_data, default_backend())
-
-    
-    # Verificar el certificado con al clave privada desencriptada
+def verify_certificate(cert_file, key_file, password):
     try:
+        # Leer el contenido del archivo .key
+        with open(key_file, 'rb') as key_file:
+            encrypted_private_key = key_file.read()
+
+        #Desencriptar el archivo .key
+        private_key = serialization.load_der_private_key(
+            encrypted_private_key,
+            password=password.encode(),
+            backend=default_backend()
+        )
+
+        # Cargar el certificado 
+        with open(cert_file, 'rb') as cert_file:
+            cert_data = cert_file.read()
+            cert = x509.load_der_x509_certificate(cert_data, default_backend())
+
+        
+        # Verificar el certificado con la clave privada desencriptada
         private_key.public_key().verify(
             cert.signature,
             cert.tbs_certificate_bytes,
             ec.ECDSA(cert.signature_hash_algorithm)
         )
         return True
+    
     except:
         return False

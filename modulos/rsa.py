@@ -21,13 +21,13 @@ def rsa_key_generator(file_name, password):
     
     # Serializar las claves en formato PEM
     encrypted_private_key_pem = private_key.private_bytes(
-        encoding=serialization.Encoding.PEM,
+        encoding=serialization.Encoding.DER,
         format=serialization.PrivateFormat.PKCS8,
         encryption_algorithm=serialization.BestAvailableEncryption(password_bytes)
     )
     
     public_key_pem = public_key.public_bytes(
-        encoding=serialization.Encoding.PEM,
+        encoding=serialization.Encoding.DER,
         format=serialization.PublicFormat.SubjectPublicKeyInfo
     )
     
@@ -39,21 +39,20 @@ def rsa_key_generator(file_name, password):
     os.makedirs(public_path, exist_ok=True)
 
     # Guardar las claves en archivos
-    with open(f"{private_path}/{file_name}_clave_privada.pem", "wb") as f:
+    with open(f"{private_path}/{file_name}_clave_privada.der", "wb") as f:
         f.write(encrypted_private_key_pem)
 
-    with open(f"{public_path}/{file_name}_clave_publica.pem", "wb") as f:
+    with open(f"{public_path}/{file_name}_clave_publica.der", "wb") as f:
         f.write(public_key_pem)
 
 
 
 
 
-def rsa_encrypt(message, public_key_pem):
-
-    # Cargar la clave publica del destinatario
-    public_key = serialization.load_pem_public_key(
-        public_key_pem.encode('utf-8'),
+def rsa_encrypt(message, public_key_der):
+    # Cargar la clave publica del destinatario desde DER
+    destination_public_key = serialization.load_der_public_key(
+        public_key_der,
         backend=default_backend()
         )
     
@@ -61,7 +60,7 @@ def rsa_encrypt(message, public_key_pem):
     message_bytes = message.encode('utf-8')
 
     # Cifrar el mensaje con la clave publica del destinatario
-    cipher_message = public_key.encrypt(
+    cipher_message = destination_public_key.encrypt(
         message_bytes,
         padding.OAEP(
             mgf=padding.MGF1(algorithm=hashes.SHA256()),
@@ -70,4 +69,4 @@ def rsa_encrypt(message, public_key_pem):
         )
     )
 
-    return cipher_message.hex()
+    return cipher_message

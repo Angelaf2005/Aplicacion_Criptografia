@@ -32,6 +32,7 @@ class ModelUser():
         else:
             print('El usuario no existe')
             return False
+        
     @classmethod
     def register(self,name, user, email, password):
         #Conectarse a la base de datos
