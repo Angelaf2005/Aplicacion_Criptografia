@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, session, redirect, url_for, send_from_directory, send_file,jsonify
 from modulos import eckeys, users, fernet, rsa, restore, user2,Cesar
-from flask_login import login_user,login_required,UserMixin,LoginManager,current_user
+from flask_login import login_user,login_required,UserMixin,LoginManager,current_user, logout_user
 from os import urandom, path
 import os
 import time
@@ -122,9 +122,11 @@ def register():
         return render_template("registro.html")
     return render_template("registro.html")
 
-@app.route('/logout')
+# Cerrar sesion
+@app.route('/logout', methods=['GET'])
 def logout():
-    logout(current_user)
+    logout_user()
+    # logout(current_user)
     return redirect(url_for("principal_page"))
 
 @app.route('/uploads/<string:nombre>')
