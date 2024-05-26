@@ -61,19 +61,17 @@ def nota():
 def integrantes():
     return render_template("integrantes.html")
 @app.route("/verlasnotas",methods=['POST','GET'])
-@login_required
-def notasg(men=""):
-    print(men)
+def notasg():
     if request.method == "POST":
-        enc = request.form["enc"]
-        if enc == "NF":
-            si=fernet.fernet_decrypt(current_user.name)
-            print(si)
-        else:
-            si=''
-        return render_template('Nguardadas.html',men=si)
-    return render_template('Nguardadas.html',men=men)
-    
+        enc = request.form["metodo"]
+        if (enc == "Notas Fernet"):
+            mensaje = fernet.fernet_decrypt(current_user.username)
+            return render_template('Nguardadas.html',mensaje=mensaje)
+        elif(enc == "Notas césar"):
+            mensaje = Cesar.cesar_decrypt(current_user.username)
+            return render_template('Nguardadas.html',mensaje=mensaje)
+        return render_template('Nguardadas.html')
+    return render_template('Nguardadas.html')
 @app.route("/register", methods=["GET","POST"])
 def register():
     if request.method == "POST":
