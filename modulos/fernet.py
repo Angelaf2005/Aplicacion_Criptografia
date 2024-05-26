@@ -14,17 +14,22 @@ def fernet_encrypt(message, file_name):
     encrypted_message = cipher_suite.encrypt(bytes_message)
     print(encrypted_message)
     return encrypted_message
-def fernet_key_generator(file_name):
-    path = 'Data/Fernet/Keys/'+ file_name
-    os.makedirs(f"{path}", exist_ok=True)
 
+# Genera las clave privada fernet
+def fernet_key_generator(file_name):
+    # Construir path de la clave del usuario
+    path = 'Data/Fernet/Keys/'+ file_name
+    # Crear el directorio
+    os.makedirs(f"{path}", exist_ok=True)
+    # SI no existe una clave, generarla
     if not os.path.exists(f"{path}/{file_name}.key"):
         # Generar la clave
         key = Fernet.generate_key()
 
         # Guardar la clave generada en un archivo.
         with open(f"{path}/{file_name}.key", 'wb') as key_file:
-            key_file.write(key)         
+            key_file.write(key)
+
 def fernet_decrypt(file_name):
     encrypted_file_path = f'Data/Fernet/Notes/{file_name}/'+file_name+'.txt'   
     print(encrypted_file_path)    # Verificar si existe txt
