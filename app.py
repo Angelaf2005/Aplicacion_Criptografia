@@ -60,7 +60,7 @@ def login():
             return redirect(url_for("principal_page"))
     else:
         return render_template('Form.html')
-    
+    return render_template('Form.html')   
 @app.route("/notas", methods=["GET","POST"])
 @login_required
 def nota():

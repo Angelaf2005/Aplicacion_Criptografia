@@ -25,10 +25,7 @@ class ModelUser():
         # Verificar si el usuario existe
         if usuario:
             if User.check_pass(usuario[4],password):
-                print(usuario[4])
                 userconection = User(usuario[0],usuario[1],usuario[2],usuario[3],usuario[4])
-                print('Hola')
-                print(userconection.password)
                 return userconection
             else:
                 return False
