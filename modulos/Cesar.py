@@ -28,11 +28,9 @@ def cesar_decrypt(file_name):
 
 
     if not os.path.exists(note_file_path):
-        print(f"No se encontró el archivo de nota para {file_name}.")
-        return None
+        return f"No se encontró una nota guardada para el usuario {file_name}."
     with open(note_file_path, "r") as f:
         encrypted_message = f.read()
-        print(encrypted_message)
 
     decrypted_message = cesar_encrypt(encrypted_message, -3)
     return decrypted_message
@@ -50,4 +48,16 @@ def save_note(message, file_name):
     # Guardar el mensaje cifrado en un archivo
     with open(f"{notes_directory}/{file_name}_note.txt", "w") as f:
         f.write(mensaje)
-
+def read_encrypted_cesar_notes(file_name):
+    notes_directory = f"Data/Cesar/Notes/{file_name}"
+    
+    if not os.path.exists(notes_directory):
+        return f"No se encontraron notas encriptadas para el usuario {file_name}."
+    for filename in os.listdir(notes_directory):
+        if filename.endswith('_note.txt'):
+            note_file_path = os.path.join(notes_directory, filename)
+            with open(note_file_path, "r") as f:
+                encrypted_message = f.read().strip()
+                return encrypted_message
+        else:
+            return f"No se encontraron notas encriptadas para el usuario {file_name}"

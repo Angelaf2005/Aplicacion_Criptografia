@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for, send_from_directory, send_file,jsonify
-from modulos import eckeys, users, fernet, rsa, restore, user2,Cesar
+from modulos import eckeys, users, fernet, RSA, restore, user2,Cesar
 from flask_login import login_user,login_required,UserMixin,LoginManager,current_user, logout_user
 from os import urandom, path
 import os
@@ -56,7 +56,7 @@ def login():
                         return redirect(url_for('nota'))
                     else:
                         return render_template('Form.html')
-        except:
+        except Exception as e:
             return redirect(url_for("principal_page"))
     else:
         return render_template('Form.html')
@@ -64,13 +64,14 @@ def login():
 @app.route("/notas", methods=["GET","POST"])
 @login_required
 def nota():
+    print(current_user.password)
     if request.method == "POST":
         nota = request.form["nota"]
         encript = request.form["criptografia"]
         if encript == "fernet":
             fernet.save_note(nota,current_user.username)
         elif encript == "rsa":
-            print(5)
+            RSA.save_notes(nota,current_user.username,current_user.password)
         elif encript == "cesar":
             Cesar.save_note(nota,current_user.username)
         return render_template("notas.html")
@@ -80,7 +81,9 @@ def nota():
 def integrantes():
     return render_template("integrantes.html")
 
+
 @app.route("/verlasnotas",methods=['POST','GET'])
+@login_required
 def notasg():
     if request.method == "POST":
         enc = request.form["metodo"]
@@ -89,9 +92,17 @@ def notasg():
             return render_template('Nguardadas.html',mensaje=mensaje)
         elif(enc == "Notas césar"):
             mensaje = Cesar.cesar_decrypt(current_user.username)
-            return render_template('Nguardadas.html',mensaje=mensaje)
-        return render_template('Nguardadas.html')
+        elif(enc == 'Mensaje encriptado césar'):
+            mensaje = Cesar.read_encrypted_cesar_notes(current_user.username)
+        elif (enc == "Mensaje Encriptado Fernet"):
+            mensaje = fernet.read_encrypted_messages(current_user.username)
+        elif (enc == 'Notas RSA'):
+            mensaje = RSA.rsa_decrypt(current_user.username,current_user.password)
+        elif (enc == 'Mensaje encriptado RSA'):
+            mensaje = RSA.read_encrypted_notes(current_user.username)
+        return render_template('Nguardadas.html',mensaje=mensaje)
     return render_template('Nguardadas.html')
+
 @app.route("/register", methods=["GET","POST"])
 def register():
     # Si se envian datos al servidor
@@ -109,21 +120,22 @@ def register():
         if userconection != None:
             # Crear sesion de usuario
             login_user(userconection)
+            print(current_user.password)
             # Generar las claves por primera vez
             fernet.fernet_key_generator(user)
             eckeys.keys_generator(name, user, passwd, email)
+            RSA.rsa_key_generator(current_user.username,current_user.password)
             #rsa.rsa_key_generator(user, passwd)
-            print(current_user)
             # Redirigirlo a descargar sus archivos
             return redirect(url_for("uploads",nombre=user))
         return render_template("registro.html")
     return render_template("registro.html")
 
 # Cerrar sesion
+@login_required
 @app.route('/logout', methods=['GET'])
 def logout():
-    logout_user()
-    # logout(current_user)
+    logout(current_user)
     return redirect(url_for("principal_page"))
 
 @app.route('/uploads/<string:nombre>')

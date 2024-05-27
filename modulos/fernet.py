@@ -69,9 +69,7 @@ def decrypt(file_name, archivo):
     decrypted_message = cipher_suite.decrypt(encrypted_message)
 
     return decrypted_message.decode('utf-8')
-def save_note(message, file_name):
-
-    fernet_key_generator(file_name)                          # Generar clave y encriptar mensaje (formato)
+def save_note(message, file_name):                         # Generar clave y encriptar mensaje (formato)
     encrypted_message = fernet_encrypt(message, file_name)
 
     user_folder = 'Data/Fernet/Notes/'+file_name         # Crear carpeta para el usuario si no existe (almacenar el archivo)
@@ -79,3 +77,21 @@ def save_note(message, file_name):
     file_path = f"{user_folder}/{file_name}.txt"             # Guardar mensaje encriptado en un archivo dentro de la carpeta del usuario
     with open(file_path, 'wb') as message_file:
         message_file.write(encrypted_message)
+def read_encrypted_messages(file_name):
+    user_folder = f'Data/Fernet/Notes/{file_name}'
+    
+    # Verificar si la carpeta del usuario existe
+    if not os.path.exists(user_folder):
+        print(f"No se encontró la carpeta para el usuario {file_name}.")
+        return []
+
+    
+    # Iterar sobre todos los archivos en la carpeta del usuario
+    for filename in os.listdir(user_folder):
+        if filename.endswith('.txt'):
+            file_path = os.path.join(user_folder, filename)
+            with open(file_path, 'rb') as file:
+                encrypted_message = file.read()
+                encrypted_messages = encrypted_message.decode('utf-8')
+    
+    return encrypted_messages

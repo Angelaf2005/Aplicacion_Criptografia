@@ -25,12 +25,14 @@ class ModelUser():
         # Verificar si el usuario existe
         if usuario:
             if User.check_pass(usuario[4],password):
-                userconection = User(usuario[0],usuario[1],usuario[2],usuario[3],User.check_pass(usuario[4],password))
+                print(usuario[4])
+                userconection = User(usuario[0],usuario[1],usuario[2],usuario[3],usuario[4])
+                print('Hola')
+                print(userconection.password)
                 return userconection
             else:
                 return False
         else:
-            print('El usuario no existe')
             return False
         
     @classmethod
@@ -46,12 +48,10 @@ class ModelUser():
         usuario_x_email = cursor.fetchone()
         # Verificar si el usuario ya existe por el nombre de usuario
         if usuario_x_usuario:
-            print('Este nombre de usuario ya existe.')
             return None
 
         # Verificar si el usuario ya existe por el email
         elif usuario_x_email:
-            print("Este email ya esta registrado.")
             return None
         # Si pasa las verificaciones, regitrar el nuevo usuario
         else:
@@ -74,11 +74,10 @@ class ModelUser():
         conexion = sqlite3.connect('DataBase/DataBase.db')
         cursor = conexion.cursor()
         # Ejecutar una consulta SQL para seleccionar el usuario con el nombre dado
-        cursor.execute("SELECT id, name, user, email FROM usuarios WHERE id = {}".format(id))
+        cursor.execute("SELECT id, name, user, email, pass_hash FROM usuarios WHERE id = {}".format(id))
         usuario = cursor.fetchone()
         # Verificar si el usuario existe
         if usuario:
-            return User(usuario[0],usuario[1],usuario[2],usuario[3],None)
+            return User(usuario[0],usuario[1],usuario[2],usuario[3],usuario[4])
         else:
-            print('El usuario no existe')
             return False
