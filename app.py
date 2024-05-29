@@ -34,6 +34,8 @@ def login():
         # Seguridad en los nombres de archivos
         filenamecer = secure_filename(cer.filename)
         filenamekey = secure_filename(key.filename)
+        # Verificar la carpeta de Uploads
+        os.makedirs('Uploads', exist_ok=True)
         # Guarda los archivos en el servidor en /Uploads
         cer.save("Uploads/"+filenamecer)
         key.save("Uploads/"+filenamekey)
@@ -135,7 +137,7 @@ def register():
 @login_required
 @app.route('/logout', methods=['GET'])
 def logout():
-    logout(current_user)
+    logout_user()
     return redirect(url_for("principal_page"))
 
 @app.route('/uploads/<string:nombre>')
