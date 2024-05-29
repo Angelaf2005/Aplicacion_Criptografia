@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, session, redirect, url_for, send_from_directory, send_file,jsonify
-from modulos import eckeys, users, fernet, RSA, user2,Cesar
+from modulos import eckeys, users, fernet, rsa, user2,Cesar
 from flask_login import login_user,login_required,UserMixin,LoginManager,current_user, logout_user
 from os import urandom, path
 import os
@@ -71,7 +71,7 @@ def nota():
         if encript == "fernet":
             fernet.save_note(nota,current_user.username)
         elif encript == "rsa":
-            RSA.save_notes(nota,current_user.username,current_user.password)
+            rsa.save_notes(nota,current_user.username,current_user.password)
         elif encript == "cesar":
             Cesar.save_note(nota,current_user.username)
         return render_template("notas.html")
@@ -97,9 +97,9 @@ def notasg():
         elif (enc == "Mensaje Encriptado Fernet"):
             mensaje = fernet.read_encrypted_messages(current_user.username)
         elif (enc == 'Notas RSA'):
-            mensaje = RSA.rsa_decrypt(current_user.username,current_user.password)
+            mensaje = rsa.rsa_decrypt(current_user.username,current_user.password)
         elif (enc == 'Mensaje encriptado RSA'):
-            mensaje = RSA.read_encrypted_notes(current_user.username)
+            mensaje = rsa.read_encrypted_notes(current_user.username)
         return render_template('Nguardadas.html',mensaje=mensaje)
     return render_template('Nguardadas.html')
 
@@ -124,7 +124,7 @@ def register():
             # Generar las claves por primera vez
             fernet.fernet_key_generator(user)
             eckeys.keys_generator(name, user, passwd, email)
-            RSA.rsa_key_generator(current_user.username,current_user.password)
+            rsa.rsa_key_generator(current_user.username,current_user.password)
             #rsa.rsa_key_generator(user, passwd)
             # Redirigirlo a descargar sus archivos
             return redirect(url_for("uploads",nombre=user))

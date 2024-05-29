@@ -6,9 +6,11 @@ from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives import hashes
 import os
 
+
 def rsa_key_generator(file_name, password):
     # Codificar la contraseña a bytes
     password_bytes = password.encode('utf-8')
+
 
     # Generar un par de claves RSA
     private_key = rsa.generate_private_key(
