@@ -49,26 +49,6 @@ def fernet_decrypt(file_name):
     cipher_suite = Fernet(key)                                          # Desencriptar el mensaje
     decrypted_message = cipher_suite.decrypt(encrypted_message)
     return decrypted_message.decode('utf-8')
-def decrypt(file_name, archivo):
-
-    key_path = f'Data/Fernet/Keys/{file_name}/{archivo}.key'                # Ruta de la clave
-    if not os.path.exists(key_path):
-        return "No hay registros guardados"
-
-    with open(key_path, 'rb') as key_file:                                  # Leer la clave del archivo
-        key = key_file.read()
-
-    encrypted_file_path = f'Data/Fernet/Notes/{file_name}/{archivo}.txt'    # Ruta del archivo encriptado
-    if not os.path.exists(encrypted_file_path):
-        return "No hay notas guardadas"
-
-    with open(encrypted_file_path, 'rb') as encrypted_file:                 # Leer el mensaje encriptado
-        encrypted_message = encrypted_file.read()
-
-    cipher_suite = Fernet(key)  # Desencriptar el mensaje
-    decrypted_message = cipher_suite.decrypt(encrypted_message)
-
-    return decrypted_message.decode('utf-8')
 def save_note(message, file_name):                         # Generar clave y encriptar mensaje (formato)
     encrypted_message = fernet_encrypt(message, file_name)
 
