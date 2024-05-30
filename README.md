@@ -1,4 +1,7 @@
-# Aplicacion_Criptografia
+# Aplicacion de Notas
+### Criptografía
+### Grupo 061
+### Alejandro Muñiz Solorio
  1. Angel Adrián Álvarez Flores 2050690 
  2. Alberto Armando Alanis Rocha 1814691
  3. Raul Alejandro Rios Turrubiates 2132823
